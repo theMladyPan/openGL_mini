@@ -24,17 +24,25 @@ foreach(lib ${EXTRA_LIBS})
 include_directories(src/)
 set( project_sources
    main.cpp
-   #src/noise_filter.cpp
+   common/shader.cpp
    #src/segmentation.cpp
    #src/pixattr.cpp
+)
+set (EXTRA_FILES
+    SimpleFragmentShader.fragmentshader
+    SimpleVertexShader.vertexshader
 )
 
 add_executable(${PROJECT_NAME} ${project_sources})
 target_link_libraries (${PROJECT_NAME}  ${EXTRA_LIBS})
 
-# add_custom_command(
-#         TARGET openGL_mini POST_BUILD
-#         COMMAND ${CMAKE_COMMAND} -E copy
-#                 ${CMAKE_SOURCE_DIR}/test.png
-#                 ${CMAKE_CURRENT_BINARY_DIR}/test.png)
+foreach(file ${EXTRA_FILES})
+    message ("Copying: " ${file} )
+    add_custom_command(
+        TARGET openGL_mini POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_SOURCE_DIR}/${file}
+            ${CMAKE_CURRENT_BINARY_DIR}/${file}
+    )
+endforeach(file)
 
